@@ -158,6 +158,7 @@ export const multichainProxyContractAbi: AbiItem[] = [
         name: 'Unpaused',
         type: 'event'
     },
+    { stateMutability: 'nonpayable', type: 'fallback' },
     {
         inputs: [],
         name: 'DEFAULT_ADMIN_ROLE',
@@ -433,8 +434,7 @@ export const multichainProxyContractAbi: AbiItem[] = [
                 internalType: 'struct BridgeBase.BaseCrossChainParams',
                 name: '_params',
                 type: 'tuple'
-            },
-            { internalType: 'string', name: '_recipientNotEVM', type: 'string' }
+            }
         ],
         name: 'multiSwapOut',
         outputs: [],
@@ -460,8 +460,7 @@ export const multichainProxyContractAbi: AbiItem[] = [
                 internalType: 'struct BridgeBase.BaseCrossChainParams',
                 name: '_params',
                 type: 'tuple'
-            },
-            { internalType: 'string', name: '_recipientNotEVM', type: 'string' }
+            }
         ],
         name: 'multiSwapOutWithSwap',
         outputs: [],
@@ -487,8 +486,7 @@ export const multichainProxyContractAbi: AbiItem[] = [
                 internalType: 'struct BridgeBase.BaseCrossChainParams',
                 name: '_params',
                 type: 'tuple'
-            },
-            { internalType: 'string', name: '_recipientNotEVM', type: 'string' }
+            }
         ],
         name: 'multiSwapOutWithSwapNative',
         outputs: [],
@@ -649,5 +647,6 @@ export const multichainProxyContractAbi: AbiItem[] = [
         outputs: [{ internalType: 'contract IRubicWhitelist', name: '', type: 'address' }],
         stateMutability: 'view',
         type: 'function'
-    }
+    },
+    { stateMutability: 'payable', type: 'receive' }
 ];
