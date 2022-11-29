@@ -3,6 +3,7 @@ import { NotSupportedTokensError } from 'src/common/errors';
 import { PriceToken, PriceTokenAmount, Token } from 'src/common/tokens';
 import { nativeTokensList } from 'src/common/tokens/constants/native-tokens';
 import { compareAddresses } from 'src/common/utils/blockchain';
+import { rubicWhitelistContractAbi } from 'src/core/blockchain/constants/rubic-whitelist-abi';
 import { BlockchainName, EvmBlockchainName } from 'src/core/blockchain/models/blockchain-name';
 import { EvmWeb3Pure } from 'src/core/blockchain/web3-pure/typed-web3-pure/evm-web3-pure/evm-web3-pure';
 import { Injector } from 'src/core/injector/injector';

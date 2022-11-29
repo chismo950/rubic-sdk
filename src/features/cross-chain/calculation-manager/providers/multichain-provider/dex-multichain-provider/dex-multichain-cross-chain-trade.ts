@@ -143,17 +143,14 @@ export class DexMultichainCrossChainTrade extends MultichainCrossChainTrade {
         const toChainId = blockchainId[this.to.blockchain];
         const receiverAddress = options?.receiverAddress || this.walletAddress;
         const swapArguments = [
-            [
-                fromTokenAddress,
-                this.from.stringWeiAmount,
-                toChainId,
-                this.to.address,
-                Web3Pure.toWei(this.toTokenAmountMin, this.to.decimals),
-                receiverAddress,
-                this.providerAddress,
-                this.routerAddress
-            ],
-            'evm'
+            fromTokenAddress,
+            this.from.stringWeiAmount,
+            toChainId,
+            this.to.address,
+            Web3Pure.toWei(this.toTokenAmountMin, this.to.decimals),
+            receiverAddress,
+            this.providerAddress,
+            this.routerAddress
         ];
 
         const methodArguments: unknown[] = [];

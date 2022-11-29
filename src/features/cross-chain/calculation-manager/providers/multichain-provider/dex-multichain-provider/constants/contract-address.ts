@@ -10,11 +10,11 @@ export const multichainProxyContractAddress: Record<
     let address = '0x333BE852042F435431967664e09315CC63593333';
 
     if (blockchain === 'BSC') {
-        address = '0x1ba65dc9d69ad2d941326f218b5f4db5ce79db5e';
+        address = '0x8D9CF7773094C97B9a2ac9E8548699ef17a86521';
     }
 
     if (blockchain === 'POLYGON') {
-        address = '0xd9934a09f25ead90aa83726861d6f1394a2cca9a';
+        address = '0xA7b4856D338049cDd12816D3E3d659d7bCe3C13D';
     }
 
     return {
