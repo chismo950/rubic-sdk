@@ -1,30 +1,30 @@
+import BigNumber from 'bignumber.js';
+import { RubicSdkError, TooLowAmountError } from 'src/common/errors';
+import { PriceToken, PriceTokenAmount } from 'src/common/tokens';
+import { nativeTokensList } from 'src/common/tokens/constants/native-tokens';
+import { BlockchainName, EvmBlockchainName } from 'src/core/blockchain/models/blockchain-name';
+import { blockchainId } from 'src/core/blockchain/utils/blockchains-info/constants/blockchain-id';
+import { EvmWeb3Pure } from 'src/core/blockchain/web3-pure/typed-web3-pure/evm-web3-pure/evm-web3-pure';
+import { Web3Pure } from 'src/core/blockchain/web3-pure/web3-pure';
+import { Injector } from 'src/core/injector/injector';
+import { getFromWithoutFee } from 'src/features/common/utils/get-from-without-fee';
+import { RequiredCrossChainOptions } from 'src/features/cross-chain/calculation-manager/models/cross-chain-options';
+import { CROSS_CHAIN_TRADE_TYPE } from 'src/features/cross-chain/calculation-manager/models/cross-chain-trade-type';
+import { CrossChainProvider } from 'src/features/cross-chain/calculation-manager/providers/common/cross-chain-provider';
+import { evmCommonCrossChainAbi } from 'src/features/cross-chain/calculation-manager/providers/common/emv-cross-chain-trade/constants/evm-common-cross-chain-abi';
+import { CalculationResult } from 'src/features/cross-chain/calculation-manager/providers/common/models/calculation-result';
+import { FeeInfo } from 'src/features/cross-chain/calculation-manager/providers/common/models/fee-info';
+import { DE_BRIDGE_CONTRACT_ADDRESS } from 'src/features/cross-chain/calculation-manager/providers/debridge-provider/constants/contract-address';
 import {
     DeBridgeCrossChainSupportedBlockchain,
     deBridgeCrossChainSupportedBlockchains
 } from 'src/features/cross-chain/calculation-manager/providers/debridge-provider/constants/debridge-cross-chain-supported-blockchain';
-import { BlockchainName, EvmBlockchainName } from 'src/core/blockchain/models/blockchain-name';
-import { DE_BRIDGE_CONTRACT_ADDRESS } from 'src/features/cross-chain/calculation-manager/providers/debridge-provider/constants/contract-address';
-import { FeeInfo } from 'src/features/cross-chain/calculation-manager/providers/common/models/fee-info';
-import { PriceToken, PriceTokenAmount } from 'src/common/tokens';
-import { RequiredCrossChainOptions } from 'src/features/cross-chain/calculation-manager/models/cross-chain-options';
-import {
-    TransactionResponse,
-    TransactionErrorResponse
-} from 'src/features/cross-chain/calculation-manager/providers/debridge-provider/models/transaction-response';
 import { DebridgeCrossChainTrade } from 'src/features/cross-chain/calculation-manager/providers/debridge-provider/debridge-cross-chain-trade';
-import { Injector } from 'src/core/injector/injector';
-import { CROSS_CHAIN_TRADE_TYPE } from 'src/features/cross-chain/calculation-manager/models/cross-chain-trade-type';
-import { evmCommonCrossChainAbi } from 'src/features/cross-chain/calculation-manager/providers/common/emv-cross-chain-trade/constants/evm-common-cross-chain-abi';
-import { CrossChainProvider } from 'src/features/cross-chain/calculation-manager/providers/common/cross-chain-provider';
-import { Web3Pure } from 'src/core/blockchain/web3-pure/web3-pure';
-import { EvmWeb3Pure } from 'src/core/blockchain/web3-pure/typed-web3-pure/evm-web3-pure/evm-web3-pure';
-import { nativeTokensList } from 'src/common/tokens/constants/native-tokens';
 import { TransactionRequest } from 'src/features/cross-chain/calculation-manager/providers/debridge-provider/models/transaction-request';
-import BigNumber from 'bignumber.js';
-import { blockchainId } from 'src/core/blockchain/utils/blockchains-info/constants/blockchain-id';
-import { RubicSdkError, TooLowAmountError } from 'src/common/errors';
-import { CalculationResult } from 'src/features/cross-chain/calculation-manager/providers/common/models/calculation-result';
-import { getFromWithoutFee } from 'src/features/common/utils/get-from-without-fee';
+import {
+    TransactionErrorResponse,
+    TransactionResponse
+} from 'src/features/cross-chain/calculation-manager/providers/debridge-provider/models/transaction-response';
 
 export class DebridgeCrossChainProvider extends CrossChainProvider {
     public static readonly apiEndpoint = 'https://deswap.debridge.finance/v1.0/transaction';
@@ -62,7 +62,10 @@ export class DebridgeCrossChainProvider extends CrossChainProvider {
             );
 
             const feeInfo = await this.getFeeInfo(fromBlockchain, options.providerAddress);
-            const fromWithoutFee = getFromWithoutFee(from, feeInfo?.platformFee?.percent);
+            const fromWithoutFee = getFromWithoutFee(
+                from,
+                feeInfo.rubicProxy?.platformFee?.percent
+            );
 
             const slippageTolerance = options.slippageTolerance * 100;
 
@@ -124,9 +127,11 @@ export class DebridgeCrossChainProvider extends CrossChainProvider {
                         slippage: options.slippageTolerance,
                         feeInfo: {
                             ...feeInfo,
-                            cryptoFee: {
-                                amount: Web3Pure.fromWei(cryptoFeeAmount),
-                                tokenSymbol: nativeTokensList[fromBlockchain].symbol
+                            provider: {
+                                cryptoFee: {
+                                    amount: Web3Pure.fromWei(cryptoFeeAmount),
+                                    tokenSymbol: nativeTokensList[fromBlockchain].symbol
+                                }
                             }
                         },
                         transitAmount: Web3Pure.fromWei(transitToken.amount, transitToken.decimals),
@@ -151,25 +156,26 @@ export class DebridgeCrossChainProvider extends CrossChainProvider {
         providerAddress: string
     ): Promise<FeeInfo> {
         return {
-            fixedFee: {
-                amount: await this.getFixedFee(
-                    fromBlockchain,
-                    providerAddress,
-                    DE_BRIDGE_CONTRACT_ADDRESS[fromBlockchain].rubicRouter,
-                    evmCommonCrossChainAbi
-                ),
-                tokenSymbol: nativeTokensList[fromBlockchain].symbol
-            },
-            platformFee: {
-                percent: await this.getFeePercent(
-                    fromBlockchain,
-                    providerAddress,
-                    DE_BRIDGE_CONTRACT_ADDRESS[fromBlockchain].rubicRouter,
-                    evmCommonCrossChainAbi
-                ),
-                tokenSymbol: 'USDC'
-            },
-            cryptoFee: null
+            rubicProxy: {
+                fixedFee: {
+                    amount: await this.getFixedFee(
+                        fromBlockchain,
+                        providerAddress,
+                        DE_BRIDGE_CONTRACT_ADDRESS[fromBlockchain].rubicRouter,
+                        evmCommonCrossChainAbi
+                    ),
+                    tokenSymbol: nativeTokensList[fromBlockchain].symbol
+                },
+                platformFee: {
+                    percent: await this.getFeePercent(
+                        fromBlockchain,
+                        providerAddress,
+                        DE_BRIDGE_CONTRACT_ADDRESS[fromBlockchain].rubicRouter,
+                        evmCommonCrossChainAbi
+                    ),
+                    tokenSymbol: 'USDC'
+                }
+            }
         };
     }
 
