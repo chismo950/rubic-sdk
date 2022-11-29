@@ -26,6 +26,7 @@ import { MultichainCrossChainProvider } from 'src/features/cross-chain/calculati
 import { MultichainTargetToken } from 'src/features/cross-chain/calculation-manager/providers/multichain-provider/models/tokens-api';
 import { getToFeeAmount } from 'src/features/cross-chain/calculation-manager/providers/multichain-provider/utils/get-to-fee-amount';
 import { EvmWeb3Pure } from 'src/core/blockchain/web3-pure/typed-web3-pure/evm-web3-pure/evm-web3-pure';
+import { rubicWhitelistContractAbi } from 'src/core/blockchain/constants/rubic-whitelist-abi';
 
 export class DexMultichainCrossChainProvider extends MultichainCrossChainProvider {
     public readonly type = CROSS_CHAIN_TRADE_TYPE.MULTICHAIN;
@@ -210,9 +211,9 @@ export class DexMultichainCrossChainProvider extends MultichainCrossChainProvide
     ): Promise<string[]> {
         const web3Public = Injector.web3PublicService.getWeb3Public(fromBlockchain);
         return web3Public.callContractMethod<string[]>(
-            multichainProxyContractAddress[fromBlockchain],
-            multichainProxyContractAbi,
-            'getAvailableRouters'
+            '0x7445a1617cb03438632993707b272951ff15600f',
+            rubicWhitelistContractAbi,
+            'getAvailableDEXs'
         );
     }
 

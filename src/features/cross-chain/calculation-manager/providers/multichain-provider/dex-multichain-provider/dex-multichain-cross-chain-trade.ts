@@ -97,6 +97,16 @@ export class DexMultichainCrossChainTrade extends MultichainCrossChainTrade {
     }
 
     protected get methodName(): string {
+        if (this.routerMethodName === 'Swapout') {
+            let baseMethodName = 'multiSwapOut';
+            if (this.onChainTrade) {
+                baseMethodName += 'WithSwap';
+            }
+            if (this.from.isNative) {
+                baseMethodName += 'WithSwapNative';
+            }
+            return baseMethodName;
+        }
         let baseMethodName = 'multiBridge';
         if (this.onChainTrade) {
             baseMethodName += 'Swap';
@@ -137,14 +147,17 @@ export class DexMultichainCrossChainTrade extends MultichainCrossChainTrade {
         const toChainId = blockchainId[this.to.blockchain];
         const receiverAddress = options?.receiverAddress || this.walletAddress;
         const swapArguments = [
-            fromTokenAddress,
-            this.from.stringWeiAmount,
-            toChainId,
-            this.to.address,
-            Web3Pure.toWei(this.toTokenAmountMin, this.to.decimals),
-            receiverAddress,
-            this.providerAddress,
-            this.routerAddress
+            [
+                fromTokenAddress,
+                this.from.stringWeiAmount,
+                toChainId,
+                this.to.address,
+                Web3Pure.toWei(this.toTokenAmountMin, this.to.decimals),
+                receiverAddress,
+                this.providerAddress,
+                this.routerAddress
+            ],
+            'evm'
         ];
 
         const methodArguments: unknown[] = [];

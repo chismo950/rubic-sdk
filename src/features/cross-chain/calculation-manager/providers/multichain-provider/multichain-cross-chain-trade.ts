@@ -109,7 +109,7 @@ export class MultichainCrossChainTrade extends EvmCrossChainTrade {
 
     private readonly spenderAddress: string;
 
-    private readonly routerMethodName: MultichainMethodName;
+    protected readonly routerMethodName: MultichainMethodName;
 
     protected readonly anyTokenAddress: string;
 
