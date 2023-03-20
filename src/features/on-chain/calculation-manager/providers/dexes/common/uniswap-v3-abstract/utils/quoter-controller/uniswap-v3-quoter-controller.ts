@@ -4,7 +4,11 @@ import { Token } from 'src/common/tokens';
 import { compareAddresses } from 'src/common/utils/blockchain';
 import { Cache } from 'src/common/utils/decorators/cache-decorator/cache.decorator';
 import { notNull } from 'src/common/utils/object';
-import { EvmBlockchainName } from 'src/core/blockchain/models/blockchain-name';
+import {
+    BLOCKCHAIN_NAME,
+    BlockchainName,
+    EvmBlockchainName
+} from 'src/core/blockchain/models/blockchain-name';
 import { EvmWeb3Public } from 'src/core/blockchain/web3-public-service/web3-public/evm-web3-public/evm-web3-public';
 import { MethodData } from 'src/core/blockchain/web3-public-service/web3-public/models/method-data';
 import { EvmWeb3Pure } from 'src/core/blockchain/web3-pure/typed-web3-pure/evm-web3-pure/evm-web3-pure';
@@ -113,6 +117,12 @@ export class UniswapV3QuoterController implements UniswapV3AlgebraQuoterControll
                 ]
             }
         };
+    }
+
+    private getQuoterControllerAddress(blockchain: BlockchainName) {
+        return blockchain === BLOCKCHAIN_NAME.BINANCE_SMART_CHAIN
+            ? '0xD00bD441CEF3623dC59B5D9b5EF96ee87b42Db42'
+            : UNISWAP_V3_QUOTER_CONTRACT_ADDRESS;
     }
 
     private routerTokens: Token[] | undefined;
@@ -274,7 +284,7 @@ export class UniswapV3QuoterController implements UniswapV3AlgebraQuoterControll
 
         return this.web3Public
             .multicallContractMethods<string>(
-                UNISWAP_V3_QUOTER_CONTRACT_ADDRESS,
+                this.getQuoterControllerAddress(from.blockchain),
                 UNISWAP_V3_QUOTER_CONTRACT_ABI,
                 quoterMethodsData.map(quoterMethodData => quoterMethodData.methodData)
             )
