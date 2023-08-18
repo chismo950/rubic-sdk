@@ -54,7 +54,7 @@ export class ScrollBridgeProvider extends CrossChainProvider {
             const web3Public = Injector.web3PublicService.getWeb3Public(fromBlockchain);
 
             if (!fromToken.isNative) {
-                if (fromBlockchain === BLOCKCHAIN_NAME.GOERLI) {
+                if (fromBlockchain === BLOCKCHAIN_NAME.SEPOLIA) {
                     const l2Address = await web3Public.callContractMethod(
                         scrollBridgeContractAddress[fromBlockchain]!.providerGateway,
                         l1Erc20ScrollGatewayAbi,

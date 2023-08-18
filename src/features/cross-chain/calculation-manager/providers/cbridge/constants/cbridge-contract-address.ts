@@ -65,15 +65,5 @@ export const cbridgeContractAddress: Record<
         providerGateway: '0xf89354F314faF344Abd754924438bA798E306DF2',
         providerRouter: '0xf89354F314faF344Abd754924438bA798E306DF2',
         rubicRouter: '0x841ce48F9446C8E281D3F1444cB859b4A6D0738C'
-    },
-    [BLOCKCHAIN_NAME.GOERLI]: {
-        providerGateway: '0x358234B325EF9eA8115291A8b81b7d33A2Fa762D',
-        providerRouter: '0x358234B325EF9eA8115291A8b81b7d33A2Fa762D',
-        rubicRouter: '0x841ce48F9446C8E281D3F1444cB859b4A6D0738C'
-    },
-    [BLOCKCHAIN_NAME.SCROLL_TESTNET]: {
-        providerGateway: '0x9B36f165baB9ebe611d491180418d8De4b8f3a1f',
-        providerRouter: '0x9B36f165baB9ebe611d491180418d8De4b8f3a1f',
-        rubicRouter: '0x841ce48F9446C8E281D3F1444cB859b4A6D0738C'
     }
 };

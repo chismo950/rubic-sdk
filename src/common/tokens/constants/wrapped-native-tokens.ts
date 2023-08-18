@@ -262,16 +262,16 @@ export const wrappedNativeTokensList: Partial<Record<EvmBlockchainName, Token>> 
         symbol: 'WAVAX',
         decimals: 18
     }),
-    [BLOCKCHAIN_NAME.GOERLI]: new Token({
-        blockchain: BLOCKCHAIN_NAME.GOERLI,
+    [BLOCKCHAIN_NAME.SEPOLIA]: new Token({
+        blockchain: BLOCKCHAIN_NAME.SEPOLIA,
         address: '0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6',
         name: 'Wrapped Ether',
         symbol: 'WETH',
         decimals: 18
     }),
-    [BLOCKCHAIN_NAME.SCROLL_TESTNET]: new Token({
-        blockchain: BLOCKCHAIN_NAME.SCROLL_TESTNET,
-        address: '0xa1ea0b2354f5a344110af2b6ad68e75545009a03',
+    [BLOCKCHAIN_NAME.SCROLL_SEPOLIA]: new Token({
+        blockchain: BLOCKCHAIN_NAME.SCROLL_SEPOLIA,
+        address: '0x5300000000000000000000000000000000000004',
         name: 'Wrapped Ether',
         symbol: 'WETH',
         decimals: 18
