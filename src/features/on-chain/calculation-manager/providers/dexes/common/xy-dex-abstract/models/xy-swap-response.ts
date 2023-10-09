@@ -1,4 +1,7 @@
-import { XyQuoteResponse } from 'src/features/on-chain/calculation-manager/providers/dexes/common/xy-dex-abstract/models/xy-quote-response';
+import {
+    XyQuoteResponse,
+    XyRoute
+} from 'src/features/on-chain/calculation-manager/providers/dexes/common/xy-dex-abstract/models/xy-quote-response';
 
 export interface XySwapResponse extends XyQuoteResponse {
     tx: {
@@ -6,4 +9,5 @@ export interface XySwapResponse extends XyQuoteResponse {
         data: string;
         value: string;
     };
+    route: XyRoute;
 }
