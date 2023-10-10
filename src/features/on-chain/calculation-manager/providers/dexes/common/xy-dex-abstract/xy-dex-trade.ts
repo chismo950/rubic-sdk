@@ -139,7 +139,7 @@ export class XyDexTrade extends EvmOnChainTrade {
         const newAmount = Web3Pure.fromWei(toTokenAmount, this.to.decimals);
 
         const acceptableExpensesChangePercent = 2;
-        const acceptableReductionChangePercent = 0.3;
+        const acceptableReductionChangePercent = 0.03;
 
         const amountPlusPercent = this.to.tokenAmount.plus(
             this.to.tokenAmount.multipliedBy(acceptableExpensesChangePercent).dividedBy(100)
