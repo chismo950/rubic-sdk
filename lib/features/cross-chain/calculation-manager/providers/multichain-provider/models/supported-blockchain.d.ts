@@ -1,0 +1,2 @@
+export declare const multichainCrossChainSupportedBlockchains: readonly ["ETH", "POLYGON", "BSC", "AVALANCHE", "MOONRIVER", "FANTOM", "HARMONY", "ARBITRUM", "AURORA", "TELOS", "OPTIMISM", "CRONOS", "OKX", "GNOSIS", "FUSE", "MOONBEAM", "CELO", "BOBA", "KAVA", "BITGERT", "OASIS", "METIS", "DEFIKINGDOMS", "KLAYTN", "VELAS", "SYSCOIN", "ASTAR_EVM", "ZK_SYNC", "PULSECHAIN", "MUMBAI", "GOERLI", "FUJI", "BSCT"];
+export type MultichainCrossChainSupportedBlockchain = (typeof multichainCrossChainSupportedBlockchains)[number];

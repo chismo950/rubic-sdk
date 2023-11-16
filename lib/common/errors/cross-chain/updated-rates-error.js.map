@@ -1,0 +1,1 @@
+{"version":3,"file":"updated-rates-error.js","sourceRoot":"","sources":["../../../../src/common/errors/cross-chain/updated-rates-error.ts"],"names":[],"mappings":";;;AAAA,8CAAkD;AAGlD;;;GAGG;AACH,MAAa,iBAAkB,SAAQ,sBAAa;IAChD,YAA4B,KAAyB;QACjD,KAAK,EAAE,CAAC;QADgB,UAAK,GAAL,KAAK,CAAoB;QAEjD,MAAM,CAAC,cAAc,CAAC,IAAI,EAAE,iBAAiB,CAAC,SAAS,CAAC,CAAC;IAC7D,CAAC;CACJ;AALD,8CAKC"}

@@ -1,0 +1,12 @@
+import { ArbitrumRbcBridgeProvider } from "../providers/arbitrum-rbc-bridge/arbitrum-rbc-bridge-provider";
+import { BridgersCrossChainProvider } from "../providers/bridgers-provider/bridgers-cross-chain-provider";
+import { CbridgeCrossChainProvider } from "../providers/cbridge/cbridge-cross-chain-provider";
+import { ChangenowCrossChainProvider } from "../providers/changenow-provider/changenow-cross-chain-provider";
+import { DebridgeCrossChainProvider } from "../providers/debridge-provider/debridge-cross-chain-provider";
+import { LifiCrossChainProvider } from "../providers/lifi-provider/lifi-cross-chain-provider";
+import { SquidrouterCrossChainProvider } from "../providers/squidrouter-provider/squidrouter-cross-chain-provider";
+import { SymbiosisCrossChainProvider } from "../providers/symbiosis-provider/symbiosis-cross-chain-provider";
+import { XyCrossChainProvider } from "../providers/xy-provider/xy-cross-chain-provider";
+import { StargateCrossChainProvider } from '../providers/stargate-provider/stargate-cross-chain-provider';
+import { TaikoBridgeProvider } from '../providers/taiko-bridge/taiko-bridge-provider';
+export declare const CrossChainProviders: readonly [typeof SymbiosisCrossChainProvider, typeof StargateCrossChainProvider, typeof XyCrossChainProvider, typeof CbridgeCrossChainProvider, typeof LifiCrossChainProvider, typeof SquidrouterCrossChainProvider, typeof DebridgeCrossChainProvider, typeof BridgersCrossChainProvider, typeof ChangenowCrossChainProvider, typeof ArbitrumRbcBridgeProvider, typeof TaikoBridgeProvider];

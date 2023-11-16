@@ -1,0 +1,55 @@
+import BigNumber from 'bignumber.js';
+import { PriceTokenAmount } from "../../../../../common/tokens";
+import { EvmBlockchainName } from "../../../../../core/blockchain/models/blockchain-name";
+import { ContractParams } from "../../../../common/models/contract-params";
+import { SwapTransactionOptions } from "../../../../common/models/swap-transaction-options";
+import { EvmCrossChainTrade } from "../common/emv-cross-chain-trade/evm-cross-chain-trade";
+import { GasData } from "../common/emv-cross-chain-trade/models/gas-data";
+import { FeeInfo } from "../common/models/fee-info";
+import { GetContractParamsOptions } from "../common/models/get-contract-params-options";
+import { OnChainSubtype } from "../common/models/on-chain-subtype";
+import { TradeInfo } from "../common/models/trade-info";
+import { MultichainMethodName } from "./models/multichain-method-name";
+import { EvmOnChainTrade } from "../../../../on-chain/calculation-manager/providers/common/on-chain-trade/evm-on-chain-trade/evm-on-chain-trade";
+export declare class MultichainCrossChainTrade extends EvmCrossChainTrade {
+    readonly type: "multichain";
+    readonly isAggregator = false;
+    readonly from: PriceTokenAmount<EvmBlockchainName>;
+    readonly to: PriceTokenAmount;
+    readonly priceImpact: number | null;
+    readonly toTokenAmountMin: BigNumber;
+    readonly gasData: GasData;
+    readonly feeInfo: FeeInfo;
+    readonly bridgeType: "multichain";
+    protected readonly routerAddress: string;
+    private readonly spenderAddress;
+    private readonly routerMethodName;
+    protected readonly anyTokenAddress: string;
+    private readonly slippage;
+    /** @internal */
+    static getGasData(from: PriceTokenAmount<EvmBlockchainName>, to: PriceTokenAmount, routerAddress: string, spenderAddress: string, multichainMethodName: MultichainMethodName, anyTokenAddress: string, onChainTrade?: EvmOnChainTrade | null): Promise<GasData | null>;
+    protected get methodName(): string;
+    readonly onChainSubtype: OnChainSubtype;
+    readonly onChainTrade: EvmOnChainTrade | null;
+    protected get fromContractAddress(): string;
+    constructor(crossChainTrade: {
+        from: PriceTokenAmount<EvmBlockchainName>;
+        to: PriceTokenAmount;
+        gasData: GasData;
+        priceImpact: number | null;
+        toTokenAmountMin: BigNumber;
+        feeInfo: FeeInfo;
+        routerAddress: string;
+        spenderAddress: string;
+        routerMethodName: MultichainMethodName;
+        anyTokenAddress: string;
+        slippage: number;
+        onChainTrade: EvmOnChainTrade | null;
+    }, providerAddress: string);
+    protected swapDirect(options: SwapTransactionOptions): Promise<string>;
+    getContractParams(options: GetContractParamsOptions): Promise<ContractParams>;
+    getTradeAmountRatio(fromUsd: BigNumber): BigNumber;
+    getUsdPrice(): BigNumber;
+    getTradeInfo(): TradeInfo;
+    private getSwapData;
+}
